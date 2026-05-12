@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Asiegbu Chiedozie Franklin — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink:        #0b0c0e;
+      --paper:      #f5f2ed;
+      --gold:       #c8993a;
+      --gold-light: #e8c97a;
+      --slate:      #2e3340;
+      --muted:      #7a7d87;
+      --border:     rgba(200,153,58,0.25);
+      --card-bg:    rgba(255,255,255,0.60);
+      --glass:      rgba(245,242,237,0.75);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─────────────── NAV ─────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 4rem;
+      backdrop-filter: blur(18px) saturate(1.4);
+      background: var(--glass);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ─────────────── HERO ─────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 9rem 4rem 5rem;
+      overflow: hidden;
+    }
+
+    /* large decorative circle */
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      top: -120px; right: -180px;
+      animation: spinSlow 60s linear infinite;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      top: 60px; right: 0px;
+      animation: spinSlow 40s linear infinite reverse;
+    }
+    @keyframes spinSlow { to { transform: rotate(360deg); } }
+
+    .hero-content { max-width: 760px; position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 7vw, 6.2rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--ink);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-roles {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-bottom: 2.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .role-pill {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.38rem 1rem;
+      border: 1px solid var(--gold);
+      border-radius: 100px;
+      color: var(--gold);
+      background: rgba(200,153,58,0.07);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 2.8rem;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    .hero-cta {
+      display: flex; gap: 1.2rem; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.82rem 2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #fff;
+      border: 1px solid var(--gold);
+    }
+    .btn-primary:hover { background: #b5862e; border-color: #b5862e; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,153,58,0.3); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+    }
+    .btn-secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+
+    /* ─────────────── SECTION SHELL ─────────────── */
+    section { padding: 6rem 4rem; position: relative; z-index: 1; }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 3rem;
+    }
+
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    /* ─────────────── DIVIDER ─────────────── */
+    .divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.35;
+      margin: 0 4rem;
+      width: calc(100% - 8rem);
+    }
+
+    /* ─────────────── ABOUT ─────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text p strong { color: var(--ink); font-weight: 500; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.6rem 1.4rem;
+      backdrop-filter: blur(10px);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ─────────────── EXPERTISE ─────────────── */
+    #expertise { background: var(--slate); }
+
+    #expertise .section-label { color: var(--gold-light); }
+    #expertise .section-title { color: #f5f2ed; }
+    #expertise .section-title em { color: var(--gold-light); }
+
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .expertise-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(200,153,58,0.2);
+      border-radius: 8px;
+      padding: 2.2rem 1.8rem;
+      transition: background 0.25s, transform 0.25s;
+    }
+    .expertise-card:hover {
+      background: rgba(200,153,58,0.08);
+      transform: translateY(-4px);
+    }
+
+    .expertise-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .expertise-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: #f5f2ed;
+      margin-bottom: 0.8rem;
+    }
+
+    .expertise-desc {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: rgba(245,242,237,0.55);
+      font-weight: 300;
+    }
+
+    .expertise-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      margin-top: 1.4rem;
+    }
+    .expertise-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid rgba(200,153,58,0.35);
+      border-radius: 3px;
+      color: var(--gold-light);
+    }
+
+    /* ─────────────── PROJECTS ─────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.12); }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-header {
+      padding: 2rem 2rem 1rem;
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+
+    .project-flag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 3px;
+      background: rgba(200,153,58,0.12);
+      color: var(--gold);
+      border: 1px solid var(--border);
+    }
+
+    .project-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: rgba(200,153,58,0.15);
+      line-height: 1;
+    }
+
+    .project-body { padding: 0 2rem 2rem; }
+
+    .project-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+
+    .project-location {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.9rem;
+    }
+
+    .project-location span { margin-right: 0.5rem; }
+
+    .project-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 1.4rem;
+    }
+
+    .project-metrics {
+      display: flex; gap: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .metric { text-align: center; }
+    .metric-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+    .metric-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ─────────────── CONTACT ─────────────── */
+    #contact { background: var(--ink); }
+
+    #contact .section-label { color: var(--gold-light); }
+    #contact .section-title { color: #f5f2ed; }
+    #contact .section-title em { color: var(--gold); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-intro {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: rgba(245,242,237,0.6);
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-items { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      padding: 1.4rem 1.6rem;
+      border: 1px solid rgba(200,153,58,0.2);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      transition: background 0.25s, border-color 0.25s;
+      text-decoration: none;
+    }
+    .contact-item:hover {
+      background: rgba(200,153,58,0.07);
+      border-color: rgba(200,153,58,0.4);
+    }
+
+    .contact-item-icon {
+      width: 40px; height: 40px;
+      border-radius: 6px;
+      background: rgba(200,153,58,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-item-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+
+    .contact-item-value {
+      font-size: 0.95rem;
+      color: #f5f2ed;
+      font-weight: 300;
+    }
+
+    .remote-badge {
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .remote-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: #f5f2ed;
+      margin-bottom: 1rem;
+    }
+
+    .location-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.2rem 1.4rem;
+      border: 1px solid rgba(200,153,58,0.2);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .location-flag { font-size: 1.8rem; }
+
+    .location-name {
+      font-size: 0.88rem;
+      color: #f5f2ed;
+      font-weight: 400;
+    }
+    .location-type {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,242,237,0.45);
+    }
+
+    .available-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid rgba(50,200,100,0.4);
+      border-radius: 100px;
+      background: rgba(50,200,100,0.08);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6ee79e;
+    }
+
+    .available-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #6ee79e;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* ─────────────── FOOTER ─────────────── */
+    footer {
+      padding: 2rem 4rem;
+      background: var(--ink);
+      border-top: 1px solid rgba(200,153,58,0.15);
+      display: flex; justify-content: space-between; align-items: center;
+      position: relative; z-index: 1;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: rgba(245,242,237,0.3);
+    }
+
+    .footer-initials {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+
+    /* ─────────────── ANIMATIONS ─────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─────────────── RESPONSIVE ─────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .hero { padding: 8rem 1.5rem 4rem; }
+      .about-grid,
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .expertise-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .divider { margin: 0 1.5rem; width: calc(100% - 3rem); }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.8rem; text-align: center; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="nav-logo">ACF · Portfolio</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Remote · USA &amp; Canada</p>
+      <h1 class="hero-name">Asiegbu<br><em>Chiedozie</em><br>Franklin</h1>
+      <div class="hero-roles">
+        <span class="role-pill">Acquisition Manager</span>
+        <span class="role-pill">Web Developer</span>
+        <span class="role-pill">Sales Specialist</span>
+      </div>
+      <p class="hero-desc">
+        A versatile professional at the intersection of digital growth, strategic acquisitions, and high-performance sales — delivering measurable results across North American markets.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View Work</a>
+        <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <p class="section-label reveal">Who I Am</p>
+    <h2 class="section-title reveal">Built for <em>Results</em></h2>
+
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I'm <strong>Asiegbu Chiedozie Franklin</strong> — a multi-disciplinary professional combining technical depth in web development with sharp business acumen in acquisitions and sales strategy. I operate fully remotely across <strong>the United States and Canada</strong>, helping businesses grow, scale, and close.
+        </p>
+        <p>
+          With a proven track record of identifying high-value acquisition targets, building conversion-optimized digital experiences, and driving revenue through targeted sales campaigns, I bridge the gap between technology and commerce in a way that few specialists can.
+        </p>
+        <p>
+          Whether you need a modern web presence, a deal closed, or a pipeline built — I bring strategic precision and executional excellence to every engagement.
+        </p>
+      </div>
+
+      <div class="stats-grid reveal">
+        <div class="stat-card">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Projects Delivered</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">$2M+</div>
+          <div class="stat-label">Sales Generated</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">30+</div>
+          <div class="stat-label">Clients Served</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">5+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── EXPERTISE ── -->
+  <section id="expertise">
+    <p class="section-label reveal">What I Do</p>
+    <h2 class="section-title reveal">Core <em>Expertise</em></h2>
+
+    <div class="expertise-grid">
+
+      <div class="expertise-card reveal">
+        <div class="expertise-icon">🏢</div>
+        <h3 class="expertise-title">Acquisition Management</h3>
+        <p class="expertise-desc">
+          Identifying, evaluating, and negotiating high-value acquisition opportunities across digital and physical asset classes. I manage full deal cycles from prospecting through due diligence to close.
+        </p>
+        <div class="expertise-tags">
+          <span class="expertise-tag">Deal Sourcing</span>
+          <span class="expertise-tag">Due Diligence</span>
+          <span class="expertise-tag">Negotiation</span>
+          <span class="expertise-tag">Portfolio Management</span>
+          <span class="expertise-tag">M&amp;A Strategy</span>
+        </div>
+      </div>
+
+      <div class="expertise-card reveal">
+        <div class="expertise-icon">💻</div>
+        <h3 class="expertise-title">Web Development</h3>
+        <p class="expertise-desc">
+          Building performant, conversion-focused web applications and digital experiences — from marketing sites to full-stack platforms, with a sharp eye for design and user experience.
+        </p>
+        <div class="expertise-tags">
+          <span class="expertise-tag">HTML/CSS/JS</span>
+          <span class="expertise-tag">React</span>
+          <span class="expertise-tag">Node.js</span>
+          <span class="expertise-tag">WordPress</span>
+          <span class="expertise-tag">UI/UX</span>
+          <span class="expertise-tag">SEO</span>
+        </div>
+      </div>
+
+      <div class="expertise-card reveal">
+        <div class="expertise-icon">📈</div>
+        <h3 class="expertise-title">Sales Strategy</h3>
+        <p class="expertise-desc">
+          Developing and executing go-to-market strategies, managing B2B sales pipelines, building client relationships, and closing high-ticket deals across North American markets.
+        </p>
+        <div class="expertise-tags">
+          <span class="expertise-tag">B2B Sales</span>
+          <span class="expertise-tag">CRM Management</span>
+          <span class="expertise-tag">Lead Generation</span>
+          <span class="expertise-tag">Closing</span>
+          <span class="expertise-tag">Pipeline Building</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ── -->
+  <section id="projects">
+    <p class="section-label reveal">Selected Work</p>
+    <h2 class="section-title reveal">Featured <em>Projects</em></h2>
+
+    <div class="projects-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <span class="project-flag">🇺🇸 USA — Acquisition</span>
+          <span class="project-number">01</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">PropTech Asset Acquisition — Chicago</h3>
+          <p class="project-location">
+            <span>📍</span> Chicago, Illinois, USA · Remote Management
+          </p>
+          <p class="project-desc">
+            Led end-to-end acquisition strategy for a portfolio of three digital real estate platforms, managing vendor negotiations, legal due diligence coordination, and integration planning. Successfully closed deals totalling $480K in combined asset value within 6 weeks.
+          </p>
+          <div class="project-metrics">
+            <div class="metric">
+              <div class="metric-value">$480K</div>
+              <div class="metric-label">Deal Value</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">6 wks</div>
+              <div class="metric-label">Cycle Time</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">3</div>
+              <div class="metric-label">Assets Closed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <span class="project-flag">🇨🇦 Canada — Web Dev</span>
+          <span class="project-number">02</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">E-Commerce Platform — Toronto</h3>
+          <p class="project-location">
+            <span>📍</span> Toronto, Ontario, Canada · Remote
+          </p>
+          <p class="project-desc">
+            Designed and developed a full-stack e-commerce solution for a Canadian lifestyle brand, including a React storefront, Node.js backend, Stripe payment integration, and admin dashboard. Increased monthly revenue by 38% within 90 days of launch.
+          </p>
+          <div class="project-metrics">
+            <div class="metric">
+              <div class="metric-value">+38%</div>
+              <div class="metric-label">Revenue Lift</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">90d</div>
+              <div class="metric-label">Post-Launch</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">4.9★</div>
+              <div class="metric-label">Client Rating</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <span class="project-flag">🇺🇸 USA — Sales</span>
+          <span class="project-number">03</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">B2B SaaS Sales Campaign — Austin</h3>
+          <p class="project-location">
+            <span>📍</span> Austin, Texas, USA · Remote
+          </p>
+          <p class="project-desc">
+            Built and managed a targeted outbound sales campaign for a SaaS startup, crafting messaging frameworks, qualifying leads, and running discovery-to-close cycles. Delivered 22 closed accounts and $310K ARR in a single quarter working fully remote.
+          </p>
+          <div class="project-metrics">
+            <div class="metric">
+              <div class="metric-value">$310K</div>
+              <div class="metric-label">ARR Closed</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">22</div>
+              <div class="metric-label">Accounts Won</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">1 Qtr</div>
+              <div class="metric-label">Timeframe</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <span class="project-flag">🇨🇦 Canada — Acquisition + Dev</span>
+          <span class="project-number">04</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Digital Agency Buyout &amp; Rebrand — Vancouver</h3>
+          <p class="project-location">
+            <span>📍</span> Vancouver, BC, Canada · Remote
+          </p>
+          <p class="project-desc">
+            Managed the acquisition of a boutique digital agency, subsequently led a full website overhaul and brand repositioning — combining acquisition management expertise with hands-on web development. Post-integration, client retention improved to 94%.
+          </p>
+          <div class="project-metrics">
+            <div class="metric">
+              <div class="metric-value">94%</div>
+              <div class="metric-label">Client Retention</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">2-in-1</div>
+              <div class="metric-label">Roles Played</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">↑62%</div>
+              <div class="metric-label">Traffic Growth</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <span class="project-flag">🇺🇸 USA — Web Dev</span>
+          <span class="project-number">05</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Corporate Web Portal — New York</h3>
+          <p class="project-location">
+            <span>📍</span> New York, NY, USA · Remote
+          </p>
+          <p class="project-desc">
+            Architected and deployed an enterprise-grade internal portal for a financial services firm, featuring role-based access control, document management, and analytics dashboards. Reduced internal reporting time by 45% post-deployment.
+          </p>
+          <div class="project-metrics">
+            <div class="metric">
+              <div class="metric-value">−45%</div>
+              <div class="metric-label">Report Time</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">500+</div>
+              <div class="metric-label">Users Served</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">99.9%</div>
+              <div class="metric-label">Uptime</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 6 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <span class="project-flag">🇨🇦 Canada — Sales</span>
+          <span class="project-number">06</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">National Retail Sales Expansion — Montreal</h3>
+          <p class="project-location">
+            <span>📍</span> Montreal, Quebec, Canada · Remote
+          </p>
+          <p class="project-desc">
+            Spearheaded a national channel sales expansion for a Canadian consumer brand — identifying distribution partners, negotiating shelf placement agreements, and training in-market reps. Expanded coverage from 2 to 9 provinces in under 8 months.
+          </p>
+          <div class="project-metrics">
+            <div class="metric">
+              <div class="metric-value">9</div>
+              <div class="metric-label">Provinces</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">8 mo</div>
+              <div class="metric-label">Timeline</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">×4.5</div>
+              <div class="metric-label">Revenue Scale</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact">
+    <p class="section-label reveal">Reach Out</p>
+    <h2 class="section-title reveal">Let's <em>Connect</em></h2>
+
+    <div class="contact-grid">
+
+      <div>
+        <p class="contact-intro reveal">
+          Available for remote engagements across the United States and Canada — whether you need an acquisition lead, a web build, or a sales strategy partner. Reach out and let's explore what we can build together.
+        </p>
+
+        <div class="contact-items">
+          <a href="mailto:chiedoziefrank05@gmail.com" class="contact-item reveal">
+            <div class="contact-item-icon">✉️</div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-value">chiedoziefrank05@gmail.com</div>
+            </div>
+          </a>
+
+          <a href="tel:+2347018429383" class="contact-item reveal">
+            <div class="contact-item-icon">📞</div>
+            <div>
+              <div class="contact-item-label">Phone / WhatsApp</div>
+              <div class="contact-item-value">+234 701 842 9383</div>
+            </div>
+          </a>
+
+          <div class="contact-item reveal" style="cursor:default">
+            <div class="contact-item-icon">🌐</div>
+            <div>
+              <div class="contact-item-label">Availability</div>
+              <div class="contact-item-value">Remote — USA &amp; Canada (All Time Zones)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="remote-badge">
+          <h3 class="remote-title">Remote Markets</h3>
+
+          <div class="location-item">
+            <div class="location-flag">🇺🇸</div>
+            <div>
+              <div class="location-name">United States</div>
+              <div class="location-type">All States · Remote</div>
+            </div>
+          </div>
+
+          <div class="location-item">
+            <div class="location-flag">🇨🇦</div>
+            <div>
+              <div class="location-name">Canada</div>
+              <div class="location-type">All Provinces · Remote</div>
+            </div>
+          </div>
+
+          <div class="available-badge">
+            <span class="available-dot"></span>
+            Available for New Projects
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <span class="footer-copy">© 2025 Asiegbu Chiedozie Franklin · All Rights Reserved</span>
+    <span class="footer-initials">ACF</span>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
